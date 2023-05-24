@@ -13,6 +13,10 @@ public abstract class ApplicationBaseController  : ControllerBase
             
             return actionResult;
         }
+        catch (NotFoundException)
+        {
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (ApplicationValidationException validationException)
         {
             return StatusCode(StatusCodes.Status400BadRequest, validationException.GetValidationErrorMessage());
@@ -28,6 +32,10 @@ public abstract class ApplicationBaseController  : ControllerBase
         try
         {
             return await function();
+        }
+        catch (NotFoundException)
+        {
+            return StatusCode(StatusCodes.Status404NotFound);
         }
         catch (ApplicationValidationException validationException)
         {

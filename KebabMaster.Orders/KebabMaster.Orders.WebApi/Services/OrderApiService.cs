@@ -1,9 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
-using KebabMaster.Orders.Domain;
+﻿using AutoMapper;
 using KebabMaster.Orders.Domain.DTOs;
 using KebabMaster.Orders.Domain.Entities;
-using KebabMaster.Orders.Domain.Entities.Base;
 using KebabMaster.Orders.Domain.Exceptions;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.DTOs;

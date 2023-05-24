@@ -5,6 +5,7 @@ using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.Infrastructure.Repositories;
 using KebabMaster.Orders.Infrastructure.Tests.Mocks;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
 
 namespace KebabMaster.Orders.Infrastructure.Tests.Repositories;
 

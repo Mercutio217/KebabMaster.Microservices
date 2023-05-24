@@ -6,6 +6,7 @@ using KebabMaster.Orders.Infrastructure.Database;
 using KebabMaster.Orders.Infrastructure.Interfaces;
 using KebabMaster.Orders.Infrastructure.Logger;
 using KebabMaster.Orders.Infrastructure.Repositories;
+using KebabMaster.Orders.Infrastructure.Settings;
 using KebabMaster.Orders.Interfaces;
 using KebabMaster.Orders.Mappings;
 using KebabMaster.Orders.Services;
@@ -27,6 +28,9 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddTransient<IApplicationLogger, ApplicationLogger>();
 builder.Services.AddTransient<IUserManagementService, UserManagementService>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+builder.Services.Configure<DatabaseOptions>(
+    builder.Configuration.GetSection("Database"));
 
 builder.Services.AddAutoMapper(typeof(OrderProfile));
 builder.Logging.ClearProviders();
