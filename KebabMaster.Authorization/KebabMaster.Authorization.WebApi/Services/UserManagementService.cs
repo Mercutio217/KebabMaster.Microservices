@@ -50,7 +50,7 @@ public class UserManagementService : IUserManagementService
         string hashString = HashString(model.Password);
         
         if (hashString != user.PaswordHash)
-            throw new Exception();
+            throw new UnauthorizedException(model.Email);
 
         var claims = new List<Claim>()
         {
@@ -71,7 +71,17 @@ public class UserManagementService : IUserManagementService
             Token = new JwtSecurityTokenHandler().WriteToken(token),
         };
     }
-    
+
+    public Task<UserResponse> GetByFilter(UserRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteUser(string email)
+    {
+        throw new NotImplementedException();
+    }
+
     private JwtSecurityToken GetToken(List<Claim> authClaims)
     {
         SymmetricSecurityKey authSigningKey = 

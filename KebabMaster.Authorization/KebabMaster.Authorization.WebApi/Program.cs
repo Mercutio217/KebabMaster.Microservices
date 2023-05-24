@@ -2,11 +2,13 @@ using System.Text;
 using KebabMaster.Authorization.Domain.Entities;
 using KebabMaster.Authorization.Domain.Interfaces;
 using KebabMaster.Authorization.Infrastructure.Database;
+using KebabMaster.Authorization.Infrastructure.Logger;
 using KebabMaster.Authorization.Infrastructure.Repositories;
 using KebabMaster.Authorization.Infrastructure.Settings;
 using KebabMaster.Authorization.Interfaces;
 using KebabMaster.Authorization.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +19,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// builder.Services.AddTransient<IApplicationLogger, ApplicationLogger>();
+builder.Services.AddTransient<IApplicationLogger, ApplicationLogger>();
 builder.Services.AddTransient<IUserManagementService, UserManagementService>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
@@ -61,28 +63,30 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+SetDatabase(app);
 app.Run();
 
 void SetDatabase(WebApplication app)
 {
+    DatabaseOptions settings = builder.Configuration.GetSection("Database").Get<DatabaseOptions>();
+    var database = new ApplicationDbContext(Options.Create(settings));
+    database.Database.EnsureCreated();
     
-    // var database = app.Services.GetService<ApplicationDbContext>();
-    // database.Database.EnsureCreated();
-    //
-    // if (!database.Roles.Any())
-    // {
-    //     database.Roles.Add(new Role("Admin"));
-    //     database.Roles.Add(new Role("User"));
-    //
-    // }
-    //
-    // database.SaveChanges();
-    //
-    // if (!database.Users.Any())
-    // {
-    //     var user = 
-    //         User.Create("testmail@mail.com","Gul" ,"Skrain", "Dukat");
-    //     
-    //     database.Users.
-    // }
+    if (!database.Roles.Any())
+    {
+        database.Roles.Add(new Role("Admin"));
+        database.Roles.Add(new Role("User"));
+    
+    }
+    
+    database.SaveChanges();
+    
+    if (!database.Users.Any())
+    {
+        var user = 
+            User.Create("testmail@mail.com","Gul" ,"Skrain", "Dukat");
+
+        user.PaswordHash = "799DBF90EE52688EB50516DE263415C05207AD00866860331795784F1EC950CF";
+        database.Users.Add(user);
+    }
 }
