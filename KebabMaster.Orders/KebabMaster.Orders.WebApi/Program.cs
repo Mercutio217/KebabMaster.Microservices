@@ -1,13 +1,10 @@
 using System.Text;
-using KebabMaster.Orders.Domain.Entities;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.Domain.Services;
 using KebabMaster.Orders.Infrastructure.Database;
-using KebabMaster.Orders.Infrastructure.Interfaces;
 using KebabMaster.Orders.Infrastructure.Logger;
 using KebabMaster.Orders.Infrastructure.Repositories;
 using KebabMaster.Orders.Infrastructure.Settings;
-using KebabMaster.Orders.Interfaces;
 using KebabMaster.Orders.Mappings;
 using KebabMaster.Orders.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,8 +23,6 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddTransient<IApplicationLogger, ApplicationLogger>();
-builder.Services.AddTransient<IUserManagementService, UserManagementService>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 builder.Services.Configure<DatabaseOptions>(
     builder.Configuration.GetSection("Database"));
