@@ -1,8 +1,8 @@
-﻿using KebabMaster.Orders.DTOs;
-using KebabMaster.Orders.Interfaces;
+﻿using KebabMaster.Authorization.Interfaces;
+using KebabMaster.Orders.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KebabMaster.Orders.Controllers;
+namespace KebabMaster.Authorization.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -21,7 +21,7 @@ public class AuthorizationController : ApplicationBaseController
         [FromBody] LoginModel model
         )
     {
-        return await _service.Login(model);
+        return await Execute(() =>  _service.Login(model));
     }
     
     [HttpPost]
@@ -30,8 +30,6 @@ public class AuthorizationController : ApplicationBaseController
         [FromBody] RegisterModel model
     )
     {
-        await _service.CreateUser(model);
-
-        return Ok();
+        return await Execute(() => _service.CreateUser(model), Ok());
     }
 }
