@@ -1,28 +1,29 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using KebabMaster.Orders.Domain.DTOs.Authorization;
-using KebabMaster.Orders.Domain.Exceptions;
+using KebabMaster.Authorization.Domain.Entities;
+using KebabMaster.Authorization.Domain.Exceptions;
+using KebabMaster.Authorization.Domain.Interfaces;
+using KebabMaster.Authorization.Interfaces;
 using KebabMaster.Orders.DTOs;
-using KebabMaster.Orders.Infrastructure.DTOs.Authorization;
-using KebabMaster.Orders.Infrastructure.Interfaces;
-using KebabMaster.Orders.Interfaces;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 
-namespace KebabMaster.Orders.Services;
+namespace KebabMaster.Authorization.Services;
 
 public class UserManagementService : IUserManagementService
 {
     private readonly IConfiguration _configuration;
     private readonly IUserRepository _repository;
-    
+    private readonly IApplicationLogger _logger;
+
     public UserManagementService(
         IConfiguration configuration,
-        IUserRepository repository)
+        IUserRepository repository,
+        IApplicationLogger logger)
     {
         _configuration = configuration;
         _repository = repository;
+        _logger = logger;
     }
 
     public async Task CreateUser(RegisterModel model)
@@ -101,5 +102,39 @@ public class UserManagementService : IUserManagementService
             .Replace("-", String.Empty);
 
         return hash;
+    }
+    
+    private async Task Execute(Func<Task> function)
+    {
+        try
+        {
+            await function();
+        }
+        catch (ApplicationValidationException validationException)
+        {
+            _logger.LogValidationException(validationException);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogException(exception);
+        }
+    }
+
+    private async Task<T> Execute<T>(Func<Task<T>> function)
+    {
+        try
+        {
+            return await function();
+        }
+        catch (ApplicationValidationException validationException)
+        {
+            _logger.LogValidationException(validationException);
+            throw;
+        }
+        catch (Exception exception)
+        {
+            _logger.LogException(exception);
+            throw;
+        }
     }
 }

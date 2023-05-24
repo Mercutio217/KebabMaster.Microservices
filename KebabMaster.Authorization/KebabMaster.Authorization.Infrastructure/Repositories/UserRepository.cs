@@ -1,10 +1,9 @@
-﻿using KebabMaster.Orders.Domain.DTOs.Authorization;
-using KebabMaster.Orders.Infrastructure.Database;
-using KebabMaster.Orders.Infrastructure.DTOs.Authorization;
-using KebabMaster.Orders.Infrastructure.Interfaces;
+﻿using KebabMaster.Authorization.Domain.Entities;
+using KebabMaster.Authorization.Domain.Interfaces;
+using KebabMaster.Authorization.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace KebabMaster.Orders.Infrastructure.Repositories;
+namespace KebabMaster.Authorization.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
@@ -37,6 +36,7 @@ public class UserRepository : IUserRepository
 
     public Task<Role?> GetRoleByName(string name)
     {
+        _context.Database.EnsureCreated();
         return _context.Roles.FirstOrDefaultAsync(role => role.Name == name);
     }
 }

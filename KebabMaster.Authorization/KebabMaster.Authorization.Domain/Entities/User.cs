@@ -1,8 +1,7 @@
 ﻿using System.Net.Mail;
-using KebabMaster.Orders.Domain.DTOs.Authorization;
-using KebabMaster.Orders.Domain.Exceptions;
+using KebabMaster.Authorization.Domain.Exceptions;
 
-namespace KebabMaster.Orders.Infrastructure.DTOs.Authorization;
+namespace KebabMaster.Authorization.Domain.Entities;
 
 public class User
 {
@@ -37,12 +36,21 @@ public class User
         if (username is null)
             throw new MissingMandatoryPropertyException<User>(nameof(Name));
 
+        if (username.Length > 50)
+            throw new InvalidLenghtOfPropertyException(nameof(UserName), username);
+        
         if (name is null)
             throw new MissingMandatoryPropertyException<User>(nameof(Name));
         
+        if (name.Length > 50)
+            throw new InvalidLenghtOfPropertyException(nameof(Name), username);
+        
         if (surname is null)
             throw new MissingMandatoryPropertyException<User>(nameof(Name));
-
+        
+        if (surname.Length > 50)
+            throw new InvalidLenghtOfPropertyException(nameof(Surname), username);
+        
         return new User(email, username, name, surname);
     }
     
