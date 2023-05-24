@@ -3,7 +3,7 @@ using KebabMaster.Orders.Domain.Exceptions;
 using KebabMaster.Orders.Domain.Tests.Tools;
 using Xunit;
 
-namespace KebabMaster.Orders.Domain.Tests.EntityTesting;
+namespace KebabMaster.Orders.Domain.Tests.Entity;
 
 public class OrderTests
 {

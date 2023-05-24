@@ -1,7 +1,7 @@
 ﻿using KebabMaster.Orders.Domain.Exceptions;
 using Xunit;
 
-namespace KebabMaster.Orders.Domain.Tests.EntityTesting;
+namespace KebabMaster.Orders.Domain.Tests.Entity;
 
 public class AddressEntityTests
 {
