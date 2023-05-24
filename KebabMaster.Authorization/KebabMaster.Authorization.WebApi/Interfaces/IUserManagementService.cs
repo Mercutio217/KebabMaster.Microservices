@@ -1,6 +1,6 @@
 ﻿using KebabMaster.Orders.DTOs;
 
-namespace KebabMaster.Orders.Interfaces;
+namespace KebabMaster.Authorization.Interfaces;
 
 public interface IUserManagementService
 {

@@ -1,7 +1,6 @@
-﻿using KebabMaster.Orders.Domain.DTOs.Authorization;
-using KebabMaster.Orders.Infrastructure.DTOs.Authorization;
+﻿using KebabMaster.Authorization.Domain.Entities;
 
-namespace KebabMaster.Orders.Infrastructure.Interfaces;
+namespace KebabMaster.Authorization.Domain.Interfaces;
 
 public interface IUserRepository
 {
