@@ -56,7 +56,7 @@ public class OrdersController : ApplicationBaseController
     [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<IActionResult> Put(OrderUpdateRequest updateRequest) => 
-        await Execute(() => _orderApiService.UpdateOrder(updateRequest), NoContent());
+        await Execute(() => _orderApiService.UpdateOrder(updateRequest), Ok());
 
     /// <summary>
     /// Deleting order
@@ -66,7 +66,7 @@ public class OrdersController : ApplicationBaseController
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id) => 
-        await Execute(() => _orderApiService.DeleteOrder(id), NoContent());
+        await Execute(() => _orderApiService.DeleteOrder(id), Ok());
 
     [HttpGet("menu")]
     public async Task<IEnumerable<MenuItem>> GetItems() => await _orderApiService.GetMenuItems();

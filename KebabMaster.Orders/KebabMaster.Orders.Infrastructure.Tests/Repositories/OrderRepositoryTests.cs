@@ -38,11 +38,11 @@ public class OrderRepositoryTests
         var context = new MockDbContext();
         var orderRepository = new OrderRepository(context);
         
-        var filter = new OrderFilter { Email = "test@example.com" };
+        var filter = new OrderFilter { Email = "test1@example.com" };
         var orders = new List<Order>
         {
-            Order.Create("test@example.com", Address.Create("Street1", 1, null), new List<OrderItem>()),
-            Order.Create("other@example.com", Address.Create("Street2", 2, null), new List<OrderItem>())
+            Order.Create("test1@example.com", Address.Create("Street1", 1, null), new List<OrderItem>()),
+            Order.Create("test5@mple.com", Address.Create("Street2", 2, null), new List<OrderItem>())
         };
         await context.Orders.AddRangeAsync(orders);
         await context.SaveChangesAsync();
@@ -52,7 +52,7 @@ public class OrderRepositoryTests
 
         // Assert
         Assert.Equal(1, result.Count());
-        Assert.Equal("test@example.com", result.First().Email);
+        Assert.Equal("test1@example.com", result.First().Email);
     }
 
     [Fact]

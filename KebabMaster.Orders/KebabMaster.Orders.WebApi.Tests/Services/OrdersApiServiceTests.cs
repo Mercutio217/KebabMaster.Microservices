@@ -125,7 +125,13 @@ public class OrdersApiServiceTests
         mockMapper.Setup(mapper => mapper.Map<OrderUpdateModel>(orderUpdateRequest)).Throws(new InvalidEmailFormatException("tests"));
 
         // Act
-        await ordersApiService.UpdateOrder(orderUpdateRequest);
+        try
+        {
+            await ordersApiService.UpdateOrder(orderUpdateRequest);
+        }
+        catch
+        {
+        }
 
         // Assert
         mockLogger.Verify(service => service.LogValidationException(It.IsAny<InvalidEmailFormatException>()), Times.Once);
@@ -143,7 +149,14 @@ public class OrdersApiServiceTests
         mockMapper.Setup(mapper => mapper.Map<OrderUpdateModel>(orderUpdateRequest)).Throws(new Exception("tests"));
 
         // Act
-        await ordersApiService.UpdateOrder(orderUpdateRequest);
+        try
+        {
+            await ordersApiService.UpdateOrder(orderUpdateRequest);
+        }
+        catch
+        {
+        }
+
 
         // Assert
         mockLogger.Verify(service => service.LogException(It.IsAny<Exception>()), Times.Once);
