@@ -8,7 +8,7 @@ public class Order : Entity
 {
     public string Email { get; private set; }
     public Address Address { get; private set; }
-    public IEnumerable<OrderItem> OrderItems { get; private set; }
+    public IEnumerable<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
     private Order() { }
 
     private Order(string email, Address address, IEnumerable<OrderItem> orderItems)

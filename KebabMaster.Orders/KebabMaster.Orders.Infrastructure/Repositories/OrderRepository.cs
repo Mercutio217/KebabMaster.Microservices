@@ -29,7 +29,8 @@ public class OrderRepository  : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetOrdersAsync(OrderFilter filter)
     {
-        return Applyfilter(_context.Orders, filter);
+        return Applyfilter(_context.Orders.Include(ord => ord.OrderItems)
+            .Include(ord => ord.Address), filter);
     }
 
     private IQueryable<Order> Applyfilter(IQueryable<Order> collection, OrderFilter filter)
