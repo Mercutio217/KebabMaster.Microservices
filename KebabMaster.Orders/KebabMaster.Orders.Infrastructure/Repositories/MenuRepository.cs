@@ -18,4 +18,9 @@ public class MenuRepository : IMenuRepository
     {
         return _context.MenuItems.FirstOrDefaultAsync(item => item.Id == id);
     }
+
+    public async Task<IEnumerable<MenuItem>> GetMenuItems()
+    {
+        return _context.MenuItems;
+    }
 }

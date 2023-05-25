@@ -3,4 +3,5 @@
 public interface IMenuRepository
 {
     public Task<MenuItem> GetMenuItemById(Guid id);
+    Task<IEnumerable<MenuItem>> GetMenuItems();
 }

@@ -1,4 +1,5 @@
-﻿using KebabMaster.Orders.Domain.Interfaces;
+﻿using KebabMaster.Orders.Domain;
+using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.DTOs;
 
 namespace KebabMaster.Orders.Services;
@@ -10,4 +11,5 @@ public interface IOrderApiService
     public Task<OrderResponse> GetOrderById(Guid id);
     public Task DeleteOrder(Guid id);
     public Task UpdateOrder(OrderUpdateRequest order);
+    Task<IEnumerable<MenuItem>> GetMenuItems();
 }

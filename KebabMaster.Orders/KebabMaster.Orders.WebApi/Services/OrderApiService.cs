@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KebabMaster.Orders.Domain;
 using KebabMaster.Orders.Domain.DTOs;
 using KebabMaster.Orders.Domain.Entities;
 using KebabMaster.Orders.Domain.Exceptions;
@@ -12,15 +13,18 @@ public class OrderApiService : IOrderApiService
     private readonly IOrderService _orderService;
     private readonly IMapper _mapper;
     private readonly IApplicationLogger _logger;
-
+    private readonly IMenuRepository _menuRepository;
+    
     public OrderApiService(
         IOrderService orderService,
         IMapper mapper,
-        IApplicationLogger logger)
+        IApplicationLogger logger, 
+        IMenuRepository menuRepository)
     {
         _orderService = orderService;
         _mapper = mapper;
         _logger = logger;
+        _menuRepository = menuRepository;
     }
 
     public async Task CreateOrder(OrderRequest order)
@@ -72,6 +76,11 @@ public class OrderApiService : IOrderApiService
 
             _logger.LogDeleteEnd(order);
         });
+
+    public async Task<IEnumerable<MenuItem>> GetMenuItems()
+    {
+        return await Execute(() => _menuRepository.GetMenuItems());
+    }
 
     private async Task Execute(Func<Task> function)
     {

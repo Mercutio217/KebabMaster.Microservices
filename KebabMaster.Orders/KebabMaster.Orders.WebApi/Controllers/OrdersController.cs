@@ -1,3 +1,4 @@
+using KebabMaster.Orders.Domain;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.DTOs;
 using KebabMaster.Orders.Services;
@@ -67,4 +68,6 @@ public class OrdersController : ApplicationBaseController
     public async Task<IActionResult> Delete(Guid id) => 
         await Execute(() => _orderApiService.DeleteOrder(id), NoContent());
 
+    [HttpGet("menu")]
+    public async Task<IEnumerable<MenuItem>> GetItems() => await _orderApiService.GetMenuItems();
 }
