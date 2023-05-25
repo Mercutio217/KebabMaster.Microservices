@@ -6,6 +6,8 @@ public interface IApplicationLogger
 {
     void LogRegistrationStart(object request);
     void LogRegistrationEnd(object request);
+    void LogLoginStart(object request);
+    void LogLoginEnd(object request);
     void LogGetStart(object request);
     void LogGetEnd(object request);
     void LogDeleteStart(object request);

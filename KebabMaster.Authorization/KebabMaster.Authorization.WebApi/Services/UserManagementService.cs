@@ -35,9 +35,15 @@ public class UserManagementService : IUserManagementService
     {
         await Execute(async () =>
         {
+            _logger.LogRegistrationStart(model);
+            
             User user = User.Create(model.Email, model.UserName, model.Name, model.Surname);
 
-            var hash = HashString(model.Password);
+            if (await _repository.GetUserByEmail(user.Email) is not null ||
+                (await _repository.GetUserByFilter(new () { UserName = user.UserName })).Any())
+                throw new UserAlreadyExistsException(user.Email, user.Surname);
+            
+            string hash = HashString(model.Password);
 
             user.PaswordHash = hash;
 
@@ -45,6 +51,9 @@ public class UserManagementService : IUserManagementService
             user.Roles = new List<Role>() { role };
 
             await _repository.CreateUser(user);
+            
+            _logger.LogRegistrationEnd(model);
+
         });
     }
 
@@ -53,6 +62,8 @@ public class UserManagementService : IUserManagementService
     {
         return await Execute(async () =>
         {
+            _logger.LogLoginStart(model);
+            
             var user = await _repository.GetUserByEmail(model.Email);
             if (user is null)
                 throw new UnauthorizedException(model.Email);
@@ -74,6 +85,8 @@ public class UserManagementService : IUserManagementService
             }
 
             var token = GetToken(claims);
+            
+            _logger.LogLoginEnd(model);
 
             return new TokenResponse()
             {
@@ -83,15 +96,29 @@ public class UserManagementService : IUserManagementService
         });
     }
 
-    public async Task<IEnumerable<UserResponse>> GetByFilter(UserRequest request)
-    {
-        return await Execute(async () => 
-            _mapper.Map<IEnumerable<UserResponse>>(await _repository.GetUserByFilter(_mapper.Map<UserFilter>(request))));
-    }
+    public async Task<IEnumerable<UserResponse>> GetByFilter(UserRequest request) =>
+        await Execute(async () =>
+        {
+            _logger.LogGetStart(request);
+            
+            var result =  _mapper.Map<IEnumerable<UserResponse>>(
+                await _repository.GetUserByFilter(_mapper.Map<UserFilter>(request)));
+            
+            _logger.LogGetEnd(request);
+
+            return result;
+        });
 
     public async Task DeleteUser(string email)
     {
-        await Execute(() => _repository.DeleteUser(email));
+        await Execute(async () =>
+        {
+            _logger.LogDeleteStart(email);
+            
+             await _repository.DeleteUser(email);
+             
+             _logger.LogDeleteEnd(email);
+        });
     }
 
     private JwtSecurityToken GetToken(List<Claim> authClaims)
@@ -134,10 +161,12 @@ public class UserManagementService : IUserManagementService
         catch (ApplicationValidationException validationException)
         {
             _logger.LogValidationException(validationException);
+            throw;
         }
         catch (Exception exception)
         {
             _logger.LogException(exception);
+            throw;
         }
     }
 
