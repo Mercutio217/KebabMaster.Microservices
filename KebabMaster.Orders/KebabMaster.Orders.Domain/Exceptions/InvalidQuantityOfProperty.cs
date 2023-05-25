@@ -17,5 +17,5 @@ public class InvalidQuantityOfProperty : ApplicationValidationException
     }
 
     private static string GetMessage(string propertyName, double value) =>
-        $"Property {propertyName} value of {value} is too big, the max quantity is 50 and min is 1";
+        $"Property {propertyName} value of {value} is invalid, the max quantity is 50 and min is 1";
 }
