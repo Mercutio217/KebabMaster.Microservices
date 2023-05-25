@@ -23,7 +23,7 @@ public class OrdersController : ApplicationBaseController
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<ApplicationResponse<OrderResponse>>> Get([FromQuery] OrderFilter filter)
     {
@@ -34,7 +34,7 @@ public class OrdersController : ApplicationBaseController
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet("{id}")]
     public async Task<ActionResult<OrderResponse>> Get(Guid id) => 
         await Execute(() => _orderApiService.GetOrderById(id));
@@ -53,7 +53,7 @@ public class OrdersController : ApplicationBaseController
     /// <param name="updateRequest"></param>
     /// <returns></returns>
     [Authorize(Roles = "Admin")]
-    [HttpPut("{id}")]
+    [HttpPut]
     public async Task<IActionResult> Put(OrderUpdateRequest updateRequest) => 
         await Execute(() => _orderApiService.UpdateOrder(updateRequest), NoContent());
 

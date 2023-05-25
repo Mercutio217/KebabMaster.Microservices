@@ -55,7 +55,7 @@ public class UserRepository : IUserRepository
     }
     public async Task DeleteUser(string email)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+        User? user = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
 
         if (user is null)
             throw new NotFoundException(email);
@@ -67,7 +67,6 @@ public class UserRepository : IUserRepository
 
     public Task<Role?> GetRoleByName(string name)
     {
-        _context.Database.EnsureCreated();
         return _context.Roles.FirstOrDefaultAsync(role => role.Name == name);
     }
 }

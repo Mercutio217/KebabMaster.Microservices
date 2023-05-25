@@ -9,15 +9,31 @@ namespace KebabMaster.Orders.Domain.Services;
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository _repository;
-
-    public OrderService(IOrderRepository repository)
+    private readonly IMenuRepository _menuRepository;
+    
+    public OrderService(IOrderRepository repository, IMenuRepository menuRepository)
     {
         _repository = repository;
+        _menuRepository = menuRepository;
     }
 
-    public Task CreateOrder(Order order)
+    public async Task CreateOrder(Order order)
     {
-        return _repository.CreateOrder(order);
+        await ValidateOrderItems(order.OrderItems);
+        
+        await _repository.CreateOrder(order);
+    }
+
+    private async Task ValidateOrderItems(IEnumerable<OrderItem> orderOrderItems)
+    {
+        MenuItem menuItem;
+        
+        foreach (var item in orderOrderItems)
+        {
+            menuItem = await _menuRepository.GetMenuItemById(item.MenuItemId);
+            if (menuItem is null)
+                throw new MissingItemException(item.MenuItemId);
+        }
     }
 
     public Task<IEnumerable<Order>> GetOrdersAsync(OrderFilter filter)

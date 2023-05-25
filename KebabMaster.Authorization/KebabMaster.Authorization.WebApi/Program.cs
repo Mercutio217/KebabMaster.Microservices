@@ -6,6 +6,7 @@ using KebabMaster.Authorization.Infrastructure.Logger;
 using KebabMaster.Authorization.Infrastructure.Repositories;
 using KebabMaster.Authorization.Infrastructure.Settings;
 using KebabMaster.Authorization.Interfaces;
+using KebabMaster.Authorization.Mappings;
 using KebabMaster.Authorization.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
@@ -27,7 +28,7 @@ builder.Services.Configure<DatabaseOptions>(
     builder.Configuration.GetSection("Database"));
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-
+builder.Services.AddAutoMapper(conf => conf.AddProfile<UserProfile>());
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,6 +56,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    SetDatabase();
 }
 
 app.UseHttpsRedirection();
@@ -63,10 +66,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-SetDatabase(app);
 app.Run();
 
-void SetDatabase(WebApplication app)
+void SetDatabase()
 {
     DatabaseOptions settings = builder.Configuration.GetSection("Database").Get<DatabaseOptions>();
     var database = new ApplicationDbContext(Options.Create(settings));
@@ -83,10 +85,13 @@ void SetDatabase(WebApplication app)
     
     if (!database.Users.Any())
     {
-        var user = 
+        var adminUser = 
             User.Create("testmail@mail.com","Gul" ,"Skrain", "Dukat");
-
-        user.PaswordHash = "799DBF90EE52688EB50516DE263415C05207AD00866860331795784F1EC950CF";
-        database.Users.Add(user);
+    
+        adminUser.PaswordHash = "799DBF90EE52688EB50516DE263415C05207AD00866860331795784F1EC950CF";
+        adminUser.Roles = new List<Role>() { database.Roles.First(r => r.Name == "Admin") };
+        database.Users.Add(adminUser);
     }
+
+    database.SaveChanges();
 }

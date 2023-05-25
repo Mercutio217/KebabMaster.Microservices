@@ -1,5 +1,6 @@
 ﻿using KebabMaster.Orders.Domain.DTOs;
 using KebabMaster.Orders.Domain.Entities;
+using KebabMaster.Orders.Domain.Exceptions;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.Domain.Services;
 using KebabMaster.Orders.Domain.Tests.Tools;
@@ -15,7 +16,7 @@ public class OrdersServiceTests
         {
             // Arrange
             var repositoryMock = new Mock<IOrderRepository>();
-            var ordersService = new OrderService(repositoryMock.Object);
+            var ordersService = new OrderService(repositoryMock.Object, GetMenuRepository());
             
             Order order = TestData.Order;
     
@@ -25,13 +26,14 @@ public class OrdersServiceTests
             // Assert
             repositoryMock.Verify(r => r.CreateOrder(order), Times.Once);
         }
-    
+
+
         [Fact]
         public async Task GetOrdersAsync_ShouldCallRepositoryGetOrdersAsync()
         {
             // Arrange
             var repositoryMock = new Mock<IOrderRepository>();
-            var ordersService = new OrderService(repositoryMock.Object);
+            var ordersService = new OrderService(repositoryMock.Object, GetMenuRepository());
 
             var filter = new OrderFilter();
     
@@ -46,7 +48,7 @@ public class OrdersServiceTests
         public async Task GetOrderByIdAsync_ShouldCallRepositoryGetOrderById()
         {
             var repositoryMock = new Mock<IOrderRepository>();
-            var ordersService = new OrderService(repositoryMock.Object);
+            var ordersService = new OrderService(repositoryMock.Object, GetMenuRepository());
 
             // Arrange
             var id = Guid.NewGuid();
@@ -63,7 +65,7 @@ public class OrdersServiceTests
         {
             // Arrange
             var repositoryMock = new Mock<IOrderRepository>();
-            var ordersService = new OrderService(repositoryMock.Object);
+            var ordersService = new OrderService(repositoryMock.Object, GetMenuRepository());
 
             var id = Guid.NewGuid();
     
@@ -79,7 +81,7 @@ public class OrdersServiceTests
         {
             // Arrange
             var repositoryMock = new Mock<IOrderRepository>();
-            var ordersService = new OrderService(repositoryMock.Object);
+            var ordersService = new OrderService(repositoryMock.Object, GetMenuRepository());
 
             var order = OrderUpdateModel.Create(Guid.NewGuid(), TestData.Address, TestData.OrderItems);
     
@@ -89,4 +91,27 @@ public class OrdersServiceTests
             // Assert
             repositoryMock.Verify(r => r.UpdateOrder(order), Times.Once);
         }
+
+        [Fact]
+        public async Task CreateOrder_WithMissingMenuItemShouldThrowExceptition()
+        {
+            // Arrange
+            var repositoryMock = new Mock<IOrderRepository>();
+            var ordersService = new OrderService(repositoryMock.Object, new Mock<IMenuRepository>().Object);
+
+            var order = Order.Create("test@mail.com", TestData.Address, TestData.OrderItems);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<MissingItemException>(async () => await ordersService.CreateOrder(order));
+        }
+
+        private IMenuRepository GetMenuRepository()
+        {
+            var mock = new Mock<IMenuRepository>();
+            mock.Setup(m => m.GetMenuItemById(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(new MenuItem("Kebab", 20)));
+
+            return mock.Object;
+        }
+
 }

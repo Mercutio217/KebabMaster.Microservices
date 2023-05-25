@@ -1,4 +1,5 @@
-﻿using KebabMaster.Authorization.Interfaces;
+﻿using KebabMaster.Authorization.Domain.Filter;
+using KebabMaster.Authorization.Interfaces;
 using KebabMaster.Orders.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,4 +33,22 @@ public class AuthorizationController : ApplicationBaseController
     {
         return await Execute(() => _service.CreateUser(model), Ok());
     }
+    [HttpGet]
+    [Route("users")]
+    public async Task<ActionResult<IEnumerable<UserResponse>>> Get(
+        [FromQuery] UserRequest model
+    )
+    {
+        return await Execute(() => _service.GetByFilter(model));
+    }
+    
+    [HttpDelete]
+    [Route("users/{email}")]
+    public async Task<IActionResult> Delete(
+        [FromRoute] string email
+    )
+    {
+        return await Execute(() => _service.DeleteUser(email), Ok());
+    }
+
 }

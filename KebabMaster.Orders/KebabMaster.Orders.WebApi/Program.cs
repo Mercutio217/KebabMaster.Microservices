@@ -1,4 +1,5 @@
 using System.Text;
+using KebabMaster.Orders.Domain;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.Domain.Services;
 using KebabMaster.Orders.Infrastructure.Database;
@@ -8,6 +9,7 @@ using KebabMaster.Orders.Infrastructure.Settings;
 using KebabMaster.Orders.Mappings;
 using KebabMaster.Orders.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IMenuRepository, MenuRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddTransient<IApplicationLogger, ApplicationLogger>();
 
@@ -58,6 +61,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    SetupDatabase();
 }
 
 app.UseHttpsRedirection();
@@ -67,3 +71,22 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void SetupDatabase()
+{
+    DatabaseOptions settings = builder.Configuration.GetSection("Database").Get<DatabaseOptions>();
+    var database = new ApplicationDbContext(Options.Create(settings));
+    database.Database.EnsureCreated();
+
+    if (!database.MenuItems.Any())
+    {
+
+        database.MenuItems.Add(new MenuItem("Chicken Kebab", 9.99));
+        database.MenuItems.Add(new MenuItem("Beef Kebab", 10.99));
+        database.MenuItems.Add(new MenuItem("Lamb Kebab", 12.99));
+        database.MenuItems.Add(new MenuItem("Vegetable Kebab", 8.99));
+        database.MenuItems.Add(new MenuItem("Mixed Kebab", 11.99));
+    }
+
+    database.SaveChanges();
+}

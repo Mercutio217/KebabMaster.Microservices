@@ -27,7 +27,7 @@ public abstract class ApplicationBaseController  : ControllerBase
         }
     }
 
-    protected async Task<ActionResult<T>> Execute<T>(Func<Task<T>> function) where T : new()
+    protected async Task<ActionResult<T>> Execute<T>(Func<Task<T>> function)
     {
         try
         {

@@ -1,5 +1,6 @@
 ﻿using System.Net.Mail;
 using KebabMaster.Authorization.Domain.Exceptions;
+using KebabMaster.Authorization.Domain.Tools;
 
 namespace KebabMaster.Authorization.Domain.Entities;
 
@@ -24,15 +25,7 @@ public class User
 
     public static User Create(string email, string username, string name, string surname)
     {
-        try
-        {
-            _ = new MailAddress(email);
-        }
-        catch
-        {
-            throw new InvalidEmailFormatException(email);
-        }
-
+        EmailValidator.Validate(email);
         if (username is null)
             throw new MissingMandatoryPropertyException<User>(nameof(Name));
 
