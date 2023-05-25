@@ -30,7 +30,7 @@ public class OrderItemsTests
         int quantity = 2;
 
         // Act & Assert
-        Assert.Throws<InvalidLenghtOfPropertyException>(() => OrderItem.Create(menuItemId, quantity));
+        Assert.Throws<MissingMandatoryPropertyException<MenuItem>>(() => OrderItem.Create(menuItemId, quantity));
     }
     
     [Fact]
@@ -41,7 +41,7 @@ public class OrderItemsTests
         int quantity = -1;
 
         // Act & Assert
-        Assert.Throws<InvalidQuantityOfProperty>(() => OrderItem.Create(menuItemId, quantity));
+        Assert.Throws<MissingMandatoryPropertyException<MenuItem>>(() => OrderItem.Create(menuItemId, quantity));
     }
     
     [Fact]
@@ -52,6 +52,6 @@ public class OrderItemsTests
         int quantity = 0;
 
         // Act & Assert
-        Assert.Throws<Exception>(() => OrderItem.Create(menuItemId, quantity));
+        Assert.Throws<InvalidQuantityOfProperty>(() => OrderItem.Create(menuItemId, quantity));
     }
 }
