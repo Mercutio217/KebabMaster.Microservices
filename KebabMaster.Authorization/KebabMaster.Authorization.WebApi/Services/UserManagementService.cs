@@ -47,7 +47,7 @@ public class UserManagementService : IUserManagementService
 
             user.PaswordHash = hash;
 
-            var role = await _repository.GetRoleByName("Admin");
+            var role = await _repository.GetRoleByName("User");
             user.Roles = new List<Role>() { role };
 
             await _repository.CreateUser(user);
