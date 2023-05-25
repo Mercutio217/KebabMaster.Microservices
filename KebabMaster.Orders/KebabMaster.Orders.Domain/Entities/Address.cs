@@ -21,7 +21,9 @@ public class Address : Entity
     {
         if (string.IsNullOrWhiteSpace(streetName))
             throw new MissingMandatoryPropertyException<Address>(nameof(StreetName));
-
+        if (streetName.Length > 50)
+            throw new InvalidLenghtOfPropertyException(nameof(StreetName), streetName);
+        
         if (!streetNumber.HasValue)
             throw new MissingMandatoryPropertyException<Address>(nameof(StreetNumber));
         

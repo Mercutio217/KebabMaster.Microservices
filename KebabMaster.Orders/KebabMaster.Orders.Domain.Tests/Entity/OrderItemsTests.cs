@@ -1,4 +1,5 @@
 ﻿using KebabMaster.Orders.Domain.Entities;
+using KebabMaster.Orders.Domain.Exceptions;
 using Xunit;
 
 namespace KebabMaster.Orders.Domain.Tests.Entity;
@@ -29,9 +30,20 @@ public class OrderItemsTests
         int quantity = 2;
 
         // Act & Assert
-        Assert.Throws<Exception>(() => OrderItem.Create(menuItemId, quantity));
+        Assert.Throws<InvalidLenghtOfPropertyException>(() => OrderItem.Create(menuItemId, quantity));
     }
+    
+    [Fact]
+    public void Create_InvalidQuantityMenuItem_ThrowsException()
+    {
+        // Arrange
+        Guid menuItemId = default;
+        int quantity = -1;
 
+        // Act & Assert
+        Assert.Throws<InvalidQuantityOfProperty>(() => OrderItem.Create(menuItemId, quantity));
+    }
+    
     [Fact]
     public void Create_InvalidQuantity_ThrowsException()
     {

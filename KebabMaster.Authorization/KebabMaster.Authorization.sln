@@ -8,7 +8,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KebabMaster.Authorization.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{35BA804B-6A98-40B8-ACB7-033B77747251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KebabMaster.Authorization.Domain.Tests", "KebabMaster.Authorization.Domain.Tests\KebabMaster.Authorization.Domain.Tests.csproj", "{6A37D4FA-C884-4B9E-8397-7C1555310806}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KebabMaster.Authorization.Domain.Tests", "KebabMaster.Authorization.Domain.Tests\KebabMaster.Authorization.Domain.Tests.csproj", "{C634E879-A770-4A18-B831-E1CE3A1AB5F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KebabMaster.Authorization.Infrastructure.Tests", "KebabMaster.Authorization.Infrastructure.Tests\KebabMaster.Authorization.Infrastructure.Tests.csproj", "{CDD225EA-8394-4A9F-9BA1-98B1E65C4413}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,12 +30,17 @@ Global
 		{A5F285C3-85B1-4336-956B-4445A1D7EAEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5F285C3-85B1-4336-956B-4445A1D7EAEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5F285C3-85B1-4336-956B-4445A1D7EAEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A37D4FA-C884-4B9E-8397-7C1555310806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A37D4FA-C884-4B9E-8397-7C1555310806}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A37D4FA-C884-4B9E-8397-7C1555310806}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A37D4FA-C884-4B9E-8397-7C1555310806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C634E879-A770-4A18-B831-E1CE3A1AB5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C634E879-A770-4A18-B831-E1CE3A1AB5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C634E879-A770-4A18-B831-E1CE3A1AB5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C634E879-A770-4A18-B831-E1CE3A1AB5F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDD225EA-8394-4A9F-9BA1-98B1E65C4413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDD225EA-8394-4A9F-9BA1-98B1E65C4413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDD225EA-8394-4A9F-9BA1-98B1E65C4413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDD225EA-8394-4A9F-9BA1-98B1E65C4413}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6A37D4FA-C884-4B9E-8397-7C1555310806} = {35BA804B-6A98-40B8-ACB7-033B77747251}
+		{C634E879-A770-4A18-B831-E1CE3A1AB5F0} = {35BA804B-6A98-40B8-ACB7-033B77747251}
+		{CDD225EA-8394-4A9F-9BA1-98B1E65C4413} = {35BA804B-6A98-40B8-ACB7-033B77747251}
 	EndGlobalSection
 EndGlobal

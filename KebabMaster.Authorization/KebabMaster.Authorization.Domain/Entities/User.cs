@@ -1,21 +1,20 @@
-﻿using System.Net.Mail;
-using KebabMaster.Authorization.Domain.Exceptions;
+﻿using KebabMaster.Authorization.Domain.Exceptions;
 using KebabMaster.Authorization.Domain.Tools;
 
 namespace KebabMaster.Authorization.Domain.Entities;
 
 public class User
 {
-    public string Email { get; set; }
-    public string UserName { get; set; }
-    public string Name { get; set; }
-    public string Surname { get; set; }
+    public string Email { get; private set; }
+    public string UserName { get; private set; }
+    public string Name { get; private set; }
+    public string Surname { get; private set; }
     public string PaswordHash { get; set; }
     public IEnumerable<Role> Roles { get; set; }
     
     public User() { }
 
-    public User(string email, string userName, string name, string surname)
+    private User(string email, string userName, string name, string surname)
     {
         Email = email;
         UserName = userName;
@@ -46,5 +45,4 @@ public class User
         
         return new User(email, username, name, surname);
     }
-    
 }
