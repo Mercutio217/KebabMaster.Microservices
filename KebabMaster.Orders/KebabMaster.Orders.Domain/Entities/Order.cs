@@ -1,6 +1,7 @@
 ﻿using System.Net.Mail;
 using KebabMaster.Orders.Domain.Entities.Base;
 using KebabMaster.Orders.Domain.Exceptions;
+using KebabMaster.Orders.Domain.Tools;
 
 namespace KebabMaster.Orders.Domain.Entities;
 
@@ -20,14 +21,7 @@ public class Order : Entity
 
     public static Order Create(string email, Address address, IEnumerable<OrderItem> orderItems)
     {
-        try
-        {
-            _ = new MailAddress(email);
-        }
-        catch
-        {
-            throw new InvalidEmailFormatException(email);
-        }
+        EmailValidator.Validate(email);
 
         return new Order(email, address, orderItems);
     }
