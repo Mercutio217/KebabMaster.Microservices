@@ -91,10 +91,12 @@ public class OrderApiService : IOrderApiService
         catch (ApplicationValidationException validationException)
         {
             _logger.LogValidationException(validationException);
+            throw;
         }
         catch (Exception exception)
         {
             _logger.LogException(exception);
+            throw;
         }
     }
 

@@ -26,7 +26,9 @@ public class Address : Entity
         
         if (!streetNumber.HasValue)
             throw new MissingMandatoryPropertyException<Address>(nameof(StreetNumber));
-        
+        if (streetNumber < 1)
+            throw new InvalidQuantityOfProperty(nameof(StreetNumber), streetNumber.Value);
+
         return new Address(streetName, streetNumber.Value, flatNumber);
     }
     

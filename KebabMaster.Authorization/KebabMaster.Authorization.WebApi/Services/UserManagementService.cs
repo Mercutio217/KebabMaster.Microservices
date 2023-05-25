@@ -163,6 +163,12 @@ public class UserManagementService : IUserManagementService
             _logger.LogValidationException(validationException);
             throw;
         }
+        catch (UnauthorizedException unauthorizedException)
+        {
+            _logger.LogException(unauthorizedException);
+            throw;
+
+        }
         catch (Exception exception)
         {
             _logger.LogException(exception);
@@ -180,6 +186,12 @@ public class UserManagementService : IUserManagementService
         {
             _logger.LogValidationException(validationException);
             throw;
+        }
+        catch (UnauthorizedException unauthorizedException)
+        {
+            _logger.LogException(unauthorizedException);
+            throw;
+
         }
         catch (Exception exception)
         {

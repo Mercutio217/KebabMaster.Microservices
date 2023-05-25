@@ -21,7 +21,7 @@ public class OrdersApiServiceTests
         var mockOrderService = new Mock<IOrderService>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<IApplicationLogger>();
-        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object);
+        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object, new Mock<IMenuRepository>().Object);
         // Act
         await ordersApiService.CreateOrder(orderRequest);
 
@@ -40,7 +40,7 @@ public class OrdersApiServiceTests
         var mockOrderService = new Mock<IOrderService>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<IApplicationLogger>();
-        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object);
+        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object, new Mock<IMenuRepository>().Object);
         
         mockOrderService.Setup(service => service.GetOrdersAsync(orderFilter)).ReturnsAsync(orders);
         mockMapper.Setup(mapper => mapper.Map<IEnumerable<OrderResponse>>(orders)).Returns(responses);
@@ -64,7 +64,7 @@ public class OrdersApiServiceTests
         var mockOrderService = new Mock<IOrderService>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<IApplicationLogger>();
-        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object);
+        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object, new Mock<IMenuRepository>().Object);
         
         mockOrderService.Setup(service => service.GetOrderByIdAsync(orderId)).ReturnsAsync(order);
         mockMapper.Setup(mapper => mapper.Map<OrderResponse>(order)).Returns(orderResponse);
@@ -84,7 +84,7 @@ public class OrdersApiServiceTests
         var mockOrderService = new Mock<IOrderService>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<IApplicationLogger>();
-        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object);
+        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object, new Mock<IMenuRepository>().Object);
         
         // Act
         await ordersApiService.DeleteOrder(orderId);
@@ -102,7 +102,7 @@ public class OrdersApiServiceTests
         var mockOrderService = new Mock<IOrderService>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<IApplicationLogger>();
-        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object);
+        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object, new Mock<IMenuRepository>().Object);
         
         mockMapper.Setup(mapper => mapper.Map<OrderUpdateModel>(orderUpdateRequest)).Returns(orderUpdateModel);
 
@@ -120,7 +120,7 @@ public class OrdersApiServiceTests
         var mockOrderService = new Mock<IOrderService>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<IApplicationLogger>();
-        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object);
+        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object, new Mock<IMenuRepository>().Object);
         
         mockMapper.Setup(mapper => mapper.Map<OrderUpdateModel>(orderUpdateRequest)).Throws(new InvalidEmailFormatException("tests"));
 
@@ -138,7 +138,7 @@ public class OrdersApiServiceTests
         var mockOrderService = new Mock<IOrderService>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<IApplicationLogger>();
-        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object);
+        var ordersApiService = new OrderApiService(mockOrderService.Object, mockMapper.Object, mockLogger.Object, new Mock<IMenuRepository>().Object);
         
         mockMapper.Setup(mapper => mapper.Map<OrderUpdateModel>(orderUpdateRequest)).Throws(new Exception("tests"));
 
