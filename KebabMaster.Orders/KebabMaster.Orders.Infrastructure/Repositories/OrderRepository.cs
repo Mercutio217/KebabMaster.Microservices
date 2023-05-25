@@ -45,12 +45,14 @@ public class OrderRepository  : IOrderRepository
 
     public async Task<Order> GetOrderById(Guid id)
     {
-        return await _context.Orders.FirstAsync(order => order.Id == id);
+        return await _context.Orders.Include(ord => ord.OrderItems)
+            .Include(ord => ord.Address).FirstAsync(order => order.Id == id);
     }
 
     public async Task DeleteOrder(Guid id)
     {
-        var result = await _context.Orders.FirstAsync(order => order.Id == id);
+        var result = await _context.Orders.Include(ord => ord.OrderItems)
+            .Include(ord => ord.Address).FirstAsync(order => order.Id == id);
 
         _context.Remove(result);
 
