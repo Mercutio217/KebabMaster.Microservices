@@ -18,6 +18,8 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(_databaseOptions.ConnectionString);    
+        // optionsBuilder.UseSqlServer(_databaseOptions.ConnectionString);    
+        optionsBuilder.UseInMemoryDatabase("tfuj stary");    
+
     }
 }

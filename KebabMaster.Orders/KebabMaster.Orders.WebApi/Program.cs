@@ -33,6 +33,8 @@ builder.Services.Configure<DatabaseOptions>(
 builder.Services.AddAutoMapper(typeof(OrderProfile));
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+builder.Services.AddCors();
+    
 
 builder.Services.AddAuthentication(options =>
 {
@@ -69,6 +71,13 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader();
+    opt.AllowAnyMethod();
+    opt.AllowAnyOrigin();
+});
 
 app.Run();
 
