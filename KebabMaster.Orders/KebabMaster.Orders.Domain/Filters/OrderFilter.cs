@@ -1,4 +1,4 @@
-﻿namespace KebabMaster.Orders.Domain.Interfaces;
+﻿namespace KebabMaster.Orders.Domain.Filters;
 
 public class OrderFilter
 {

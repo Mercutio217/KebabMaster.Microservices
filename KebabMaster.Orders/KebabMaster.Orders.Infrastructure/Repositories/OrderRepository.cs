@@ -3,6 +3,7 @@ using KebabMaster.Orders.Domain.DTOs;
 using KebabMaster.Orders.Domain.Entities;
 using KebabMaster.Orders.Domain.Entities.Base;
 using KebabMaster.Orders.Domain.Exceptions;
+using KebabMaster.Orders.Domain.Filters;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +57,7 @@ public class OrderRepository  : IOrderRepository
 
         _context.Remove(result);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
     public async Task UpdateOrder(OrderUpdateModel order)
@@ -68,6 +69,12 @@ public class OrderRepository  : IOrderRepository
         previousOrder.UpdateAddress(order.Address);
         previousOrder.UpdateOrderItems(order.OrderItems);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Order>> GetOrdersByUserId(Guid id)
+    {
+        return await _context.Orders.Where(ord => ord.UserId == id)
+            .ToListAsync();
     }
 }

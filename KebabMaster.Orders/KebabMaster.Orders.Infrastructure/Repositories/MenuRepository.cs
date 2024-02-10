@@ -1,4 +1,5 @@
 ﻿using KebabMaster.Orders.Domain;
+using KebabMaster.Orders.Domain.Entities;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

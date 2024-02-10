@@ -1,6 +1,9 @@
 using KebabMaster.Orders.Domain;
+using KebabMaster.Orders.Domain.Entities;
+using KebabMaster.Orders.Domain.Filters;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.DTOs;
+using KebabMaster.Orders.Interfaces;
 using KebabMaster.Orders.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +47,7 @@ public class OrdersController : ApplicationBaseController
     /// </summary>
     /// <param name="orderRequest"></param>
     /// <returns></returns>
-    [Authorize]
+    // [Authorize]
     [HttpPost]
     public async Task<IActionResult> Post(OrderRequest orderRequest) => 
         await Execute(() => _orderApiService.CreateOrder(orderRequest), NoContent());

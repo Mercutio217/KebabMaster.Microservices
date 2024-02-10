@@ -1,7 +1,7 @@
 ﻿using KebabMaster.Orders.Domain.Entities.Base;
 using KebabMaster.Orders.Domain.Exceptions;
 
-namespace KebabMaster.Orders.Domain;
+namespace KebabMaster.Orders.Domain.Entities;
 
 public class Address : Entity
 {

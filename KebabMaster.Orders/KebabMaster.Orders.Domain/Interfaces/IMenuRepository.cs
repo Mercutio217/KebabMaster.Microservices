@@ -1,4 +1,6 @@
-﻿namespace KebabMaster.Orders.Domain.Interfaces;
+﻿using KebabMaster.Orders.Domain.Entities;
+
+namespace KebabMaster.Orders.Domain.Interfaces;
 
 public interface IMenuRepository
 {

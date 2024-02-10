@@ -1,16 +1,19 @@
 using System.Text;
 using KebabMaster.Orders.Domain;
+using KebabMaster.Orders.Domain.Entities;
 using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.Domain.Services;
 using KebabMaster.Orders.Infrastructure.Database;
 using KebabMaster.Orders.Infrastructure.Logger;
 using KebabMaster.Orders.Infrastructure.Repositories;
 using KebabMaster.Orders.Infrastructure.Settings;
+using KebabMaster.Orders.Interfaces;
 using KebabMaster.Orders.Mappings;
 using KebabMaster.Orders.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,34 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserManagementService, UserManagementService>();
 builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
@@ -31,10 +61,16 @@ builder.Services.Configure<DatabaseOptions>(
     builder.Configuration.GetSection("Database"));
 
 builder.Services.AddAutoMapper(typeof(OrderProfile));
+builder.Services.AddAutoMapper(conf =>
+{
+    conf.AddProfile<UserProfile>();
+    conf.AddProfile<OrderProfile>();
+    
+});
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.AddCors();
-    
 
 builder.Services.AddAuthentication(options =>
 {
@@ -66,18 +102,18 @@ if (app.Environment.IsDevelopment())
     SetupDatabase();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.UseCors(opt =>
 {
     opt.AllowAnyHeader();
     opt.AllowAnyMethod();
     opt.AllowAnyOrigin();
 });
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
 
@@ -95,6 +131,27 @@ void SetupDatabase()
         database.MenuItems.Add(new MenuItem("Lamb Kebab", 12.99));
         database.MenuItems.Add(new MenuItem("Vegetable Kebab", 8.99));
         database.MenuItems.Add(new MenuItem("Mixed Kebab", 11.99));
+    }
+
+    database.SaveChanges();
+    
+    if (!database.Roles.Any())
+    {
+        database.Roles.Add(new Role("Admin"));
+        database.Roles.Add(new Role("User"));
+    
+    }
+    
+    database.SaveChanges();
+    
+    if (!database.Users.Any())
+    {
+        var adminUser = 
+            User.Create("sgdukat@hotmail.com","Gul" ,"Skrain", "Dukat");
+    
+        adminUser.PaswordHash = "799DBF90EE52688EB50516DE263415C05207AD00866860331795784F1EC950CF";
+        adminUser.Roles = new List<Role>() { database.Roles.First(r => r.Name == "Admin") };
+        database.Users.Add(adminUser);
     }
 
     database.SaveChanges();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using KebabMaster.Authorization.Domain.Entities;
 using KebabMaster.Authorization.Domain.Filter;
+using KebabMaster.Authorization.DTOs;
 using KebabMaster.Orders.DTOs;
 
 namespace KebabMaster.Authorization.Mappings;

@@ -2,16 +2,16 @@
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
-using KebabMaster.Authorization.Domain.Entities;
-using KebabMaster.Authorization.Domain.Exceptions;
-using KebabMaster.Authorization.Domain.Filter;
-using KebabMaster.Authorization.Domain.Interfaces;
-using KebabMaster.Authorization.DTOs;
-using KebabMaster.Authorization.Interfaces;
+using KebabMaster.Orders.Domain.DTOs;
+using KebabMaster.Orders.Domain.Entities;
+using KebabMaster.Orders.Domain.Exceptions;
+using KebabMaster.Orders.Domain.Filters;
+using KebabMaster.Orders.Domain.Interfaces;
 using KebabMaster.Orders.DTOs;
+using KebabMaster.Orders.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
-namespace KebabMaster.Authorization.Services;
+namespace KebabMaster.Orders.Services;
 
 public class UserManagementService : IUserManagementService
 {
@@ -96,6 +96,7 @@ public class UserManagementService : IUserManagementService
                 Roles = user.Roles.Select(r => r.Name),
                 UserData = new ()
                 {
+                    Id = user.Id,
                     Email = user.Email,
                     Name = user.Name,
                     Surname = user.Surname,
@@ -118,16 +119,28 @@ public class UserManagementService : IUserManagementService
             return result;
         });
 
-    public async Task DeleteUser(string email)
+    public async Task DeleteUser(Guid id)
     {
         await Execute(async () =>
         {
-            _logger.LogDeleteStart(email);
+            _logger.LogDeleteStart(id.ToString());
             
-             await _repository.DeleteUser(email);
+             await _repository.DeleteUser(id);
              
-             _logger.LogDeleteEnd(email);
+             _logger.LogDeleteEnd(id.ToString());
         });
+    }
+
+    public async Task UpdateUser(UserUpdateRequest request)
+    {
+        var model = _mapper.Map<UserUpdateModel>(request);
+        await _repository.UpdateUser(model);
+    }
+
+    public async Task<UserResponse> GetById(Guid id)
+    {
+        User model = await _repository.GetById(id);    
+        return _mapper.Map<UserResponse>(model);
     }
 
     private JwtSecurityToken GetToken(List<Claim> authClaims)

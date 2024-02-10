@@ -17,5 +17,5 @@ public class InvalidLenghtOfPropertyException : ApplicationValidationException
     }
 
     private static string GetMessage(string propertyName, string value) =>
-        $"Property {propertyName} value of {value} is too invalid, the max length is 50";
+        $"Property {propertyName} value of {value} is too long, the max length is 50";
 }

@@ -1,4 +1,5 @@
-﻿using KebabMaster.Orders.Domain.Exceptions;
+﻿using KebabMaster.Orders.Domain.Entities;
+using KebabMaster.Orders.Domain.Exceptions;
 using Xunit;
 
 namespace KebabMaster.Orders.Domain.Tests.Entity;

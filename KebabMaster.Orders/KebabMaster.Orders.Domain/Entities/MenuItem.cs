@@ -1,6 +1,6 @@
 ﻿using KebabMaster.Orders.Domain.Entities.Base;
 
-namespace KebabMaster.Orders.Domain;
+namespace KebabMaster.Orders.Domain.Entities;
 
 public class MenuItem : Entity
 {

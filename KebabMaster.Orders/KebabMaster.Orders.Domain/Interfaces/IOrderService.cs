@@ -1,6 +1,7 @@
 ﻿using KebabMaster.Orders.Domain.DTOs;
 using KebabMaster.Orders.Domain.Entities;
 using KebabMaster.Orders.Domain.Entities.Base;
+using KebabMaster.Orders.Domain.Filters;
 
 namespace KebabMaster.Orders.Domain.Interfaces;
 
@@ -11,4 +12,5 @@ public interface IOrderService
     public Task<Order> GetOrderByIdAsync(Guid id);
     public Task DeleteOrder(Guid id);
     public Task UpdateOrder(OrderUpdateModel order);
+    public Task<IEnumerable<Order>> GetOrdersByUserId(Guid id);
 }

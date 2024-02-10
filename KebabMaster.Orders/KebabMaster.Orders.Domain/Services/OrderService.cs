@@ -2,6 +2,7 @@
 using KebabMaster.Orders.Domain.Entities;
 using KebabMaster.Orders.Domain.Entities.Base;
 using KebabMaster.Orders.Domain.Exceptions;
+using KebabMaster.Orders.Domain.Filters;
 using KebabMaster.Orders.Domain.Interfaces;
 
 namespace KebabMaster.Orders.Domain.Services;
@@ -54,5 +55,10 @@ public class OrderService : IOrderService
     public Task UpdateOrder(OrderUpdateModel order)
     {
         return _repository.UpdateOrder(order);
+    }
+
+    public Task<IEnumerable<Order>> GetOrdersByUserId(Guid id)
+    {
+        return _repository.GetOrdersByUserId(id);
     }
 }

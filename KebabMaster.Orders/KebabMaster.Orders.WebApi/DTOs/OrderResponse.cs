@@ -6,5 +6,6 @@ public class OrderResponse
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
+    public DateTime DateCreated { get; set; }
     public IEnumerable<OrderItemDto> OrderItems { get; set; }
 }

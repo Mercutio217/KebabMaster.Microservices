@@ -1,8 +1,8 @@
-﻿using KebabMaster.Orders.Domain;
-using KebabMaster.Orders.Domain.Interfaces;
+﻿using KebabMaster.Orders.Domain.Entities;
+using KebabMaster.Orders.Domain.Filters;
 using KebabMaster.Orders.DTOs;
 
-namespace KebabMaster.Orders.Services;
+namespace KebabMaster.Orders.Interfaces;
 
 public interface IOrderApiService
 {

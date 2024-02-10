@@ -46,6 +46,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
+builder.Services.AddCors();
 
 var app = builder.Build();
 app.UseAuthentication();
@@ -59,6 +60,12 @@ if (app.Environment.IsDevelopment())
     
     SetDatabase();
 }
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader();
+    opt.AllowAnyMethod();
+    opt.AllowAnyOrigin();
+});
 
 app.UseHttpsRedirection();
 

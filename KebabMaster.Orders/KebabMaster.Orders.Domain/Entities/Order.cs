@@ -8,6 +8,8 @@ namespace KebabMaster.Orders.Domain.Entities;
 public class Order : Entity
 {
     public string Email { get; private set; }
+    public DateTime DateCreated { get; set; }
+    public Guid? UserId { get; init; }
     public Address Address { get; private set; }
     public IEnumerable<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
     private Order() { }
@@ -18,7 +20,14 @@ public class Order : Entity
         Address = address;
         OrderItems = orderItems;
     }
-
+    
+    private Order(Guid userId, string email, Address address, IEnumerable<OrderItem> orderItems)
+    {
+        UserId = userId;
+        Email = email;
+        Address = address;
+        OrderItems = orderItems;
+    }
     public static Order Create(string email, Address address, IEnumerable<OrderItem> orderItems)
     {
         EmailValidator.Validate(email);

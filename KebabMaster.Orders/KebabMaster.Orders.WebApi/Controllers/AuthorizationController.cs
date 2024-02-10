@@ -1,10 +1,9 @@
-﻿using KebabMaster.Authorization.Domain.Filter;
-using KebabMaster.Authorization.Interfaces;
-using KebabMaster.Orders.DTOs;
+﻿using KebabMaster.Orders.DTOs;
+using KebabMaster.Orders.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KebabMaster.Authorization.Controllers;
+namespace KebabMaster.Orders.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -34,5 +33,4 @@ public class AuthorizationController : ApplicationBaseController
     {
         return await Execute(() => _service.CreateUser(model), Ok());
     }
-
 }

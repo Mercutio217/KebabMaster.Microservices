@@ -35,16 +35,7 @@ public class ApplicationLogger : IApplicationLogger
     {
         _logger.LogInformation($"Finish creating Orders with request {JsonSerializer.Serialize(request)}");
     }
-
-    public void LogDeleteStart(object request)
-    {
-        _logger.LogInformation($"Start deleting Orders with request {JsonSerializer.Serialize(request)}");
-    }
-
-    public void LogDeleteEnd(object request)
-    {
-        _logger.LogInformation($"Finish deleting Orders with request {JsonSerializer.Serialize(request)}");
-    }
+    
 
     public void LogPutEnd(object request)
     {
@@ -56,6 +47,36 @@ public class ApplicationLogger : IApplicationLogger
         _logger.LogInformation($"Finish updating Orders with request {JsonSerializer.Serialize(request)}");
     }
 
+    public void LogRegistrationStart(object request)
+    {
+        _logger.LogInformation($"Start registering user with {Serialize(request)}");
+    }
+
+    public void LogRegistrationEnd(object request)
+    {
+        _logger.LogInformation($"Finish registering user with {Serialize(request)}");
+    }
+
+    public void LogLoginStart(object request)
+    {
+        _logger.LogInformation($"Start loggging user with {Serialize(request)}");
+    }
+
+    public void LogLoginEnd(object request)
+    {
+        _logger.LogInformation($"Finish logging user with {Serialize(request)}");
+    }
+
+    public void LogDeleteStart(object request)
+    {
+        _logger.LogInformation($"Start deleting users with {Serialize(request)}");
+    }
+
+    public void LogDeleteEnd(object request)
+    {
+        _logger.LogInformation($"Finish deleting users with {Serialize(request)}");
+    }
+
     public void LogException(Exception exception)
     {
         _logger.LogError($"Error occured during processing entity, Exception: {exception}");
@@ -64,5 +85,15 @@ public class ApplicationLogger : IApplicationLogger
     public void LogValidationException(ApplicationValidationException validationException)
     {
         _logger.LogError($"There was error validation exception: {validationException.GetValidationErrorMessage()}");
+    }
+    private string Serialize(object data)
+    {
+        string result = JsonSerializer.Serialize(data);
+        if (result.Contains("password"))
+        {
+            // var regex = new Regex("P")
+        }
+
+        return result;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace KebabMaster.Authorization.DTOs;
+﻿namespace KebabMaster.Orders.DTOs;
 
 public class UserRequest
 {
