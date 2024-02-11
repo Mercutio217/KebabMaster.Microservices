@@ -19,6 +19,7 @@ public class Order : Entity
         Email = email;
         Address = address;
         OrderItems = orderItems;
+        DateCreated = DateTime.Now;
     }
     
     private Order(Guid userId, string email, Address address, IEnumerable<OrderItem> orderItems)
@@ -27,6 +28,8 @@ public class Order : Entity
         Email = email;
         Address = address;
         OrderItems = orderItems;
+        DateCreated = DateTime.Now;
+
     }
     public static Order Create(string email, Address address, IEnumerable<OrderItem> orderItems)
     {
@@ -34,7 +37,13 @@ public class Order : Entity
 
         return new Order(email, address, orderItems);
     }
+    
+    public static Order Create(Guid userId, string email, Address address, IEnumerable<OrderItem> orderItems)
+    {
+        EmailValidator.Validate(email);
 
+        return new Order(userId, email, address, orderItems);
+    }
     public void UpdateAddress(Address address)
     {
         Address = address ?? throw new MissingMandatoryPropertyException<Order>(nameof(Address));

@@ -97,10 +97,11 @@ app.UseAuthorization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    SetupDatabase();
+
 }
+app.UseSwagger();
+app.UseSwaggerUI();
+SetupDatabase();
 
 app.UseCors(opt =>
 {
@@ -126,11 +127,11 @@ void SetupDatabase()
     if (!database.MenuItems.Any())
     {
 
-        database.MenuItems.Add(new MenuItem("Chicken Kebab", 9.99));
-        database.MenuItems.Add(new MenuItem("Beef Kebab", 10.99));
-        database.MenuItems.Add(new MenuItem("Lamb Kebab", 12.99));
-        database.MenuItems.Add(new MenuItem("Vegetable Kebab", 8.99));
-        database.MenuItems.Add(new MenuItem("Mixed Kebab", 11.99));
+        database.MenuItems.Add(new MenuItem(new Guid("8b0ab337-3e17-4be3-9e41-bd9b96681ef4"),"Chicken Kebab", 9.99));
+        database.MenuItems.Add(new MenuItem(new Guid("c4e43f62-17a4-4b97-9326-2cd662a95509"),"Beef Kebab", 10.99));
+        database.MenuItems.Add(new MenuItem(new Guid("40554097-9c86-43a3-8bce-8526e1b30501"),"Lamb Kebab", 12.99));
+        database.MenuItems.Add(new MenuItem(new Guid("ea55f719-c495-4d64-af24-22d608dad6cc"),"Vegetable Kebab", 8.99));
+        database.MenuItems.Add(new MenuItem(new Guid("6ed522a4-9d68-4c59-99ff-232a5e931287"),"Mixed Kebab", 11.99));
     }
 
     database.SaveChanges();

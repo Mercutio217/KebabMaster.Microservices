@@ -46,8 +46,11 @@ public class OrderRepository  : IOrderRepository
 
     public async Task<Order> GetOrderById(Guid id)
     {
-        return await _context.Orders.Include(ord => ord.OrderItems)
-            .Include(ord => ord.Address).FirstAsync(order => order.Id == id);
+        return await _context.Orders
+            .Include(ord => ord.OrderItems)
+            .ThenInclude(ord => ord.MenuItem)
+            .Include(ord => ord.Address)
+            .FirstAsync(order => order.Id == id);
     }
 
     public async Task DeleteOrder(Guid id)
@@ -74,7 +77,11 @@ public class OrderRepository  : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetOrdersByUserId(Guid id)
     {
-        return await _context.Orders.Where(ord => ord.UserId == id)
+        return await _context.Orders
+            .Include(ord => ord.OrderItems)
+            .ThenInclude(ord => ord.MenuItem)            
+            .Include(ord => ord.Address)
+            .Where(ord => ord.UserId == id)
             .ToListAsync();
     }
 }

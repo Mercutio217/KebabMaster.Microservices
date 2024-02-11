@@ -31,6 +31,11 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasKey(key => key.Id);
 
+        modelBuilder.Entity<OrderItem>()
+            .HasOne<MenuItem>(ord => ord.MenuItem)
+            .WithMany()
+            .HasForeignKey(it => it.MenuItemId);
+        
         modelBuilder.Entity<User>()
             .Property(us => us.Email)
             .HasMaxLength(50);

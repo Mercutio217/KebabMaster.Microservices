@@ -71,6 +71,6 @@ public class OrdersController : ApplicationBaseController
     public async Task<IActionResult> Delete(Guid id) => 
         await Execute(() => _orderApiService.DeleteOrder(id), Ok());
 
-    [HttpGet("menu")]
+    [HttpGet("/menu")]
     public async Task<IEnumerable<MenuItem>> GetItems() => await _orderApiService.GetMenuItems();
 }

@@ -6,6 +6,8 @@ namespace KebabMaster.Orders.Domain.Entities;
 public class OrderItem : Entity
 {
     public Guid MenuItemId { get; set; }
+
+    public MenuItem MenuItem { get; set; }
     public int Quantity { get; set; }
     
     private OrderItem() { }

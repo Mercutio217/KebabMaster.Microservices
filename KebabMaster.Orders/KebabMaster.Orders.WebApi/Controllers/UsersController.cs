@@ -11,17 +11,17 @@ namespace KebabMaster.Orders.Controllers;
 public class UsersController : ApplicationBaseController
 {
     private readonly IUserManagementService _usersService;
-    private readonly IOrderService _ordersService;
+    private readonly IOrderApiService _ordersService;
 
     public UsersController(IUserManagementService usersService, 
-        IOrderService ordersService)
+        IOrderApiService ordersService)
     {
         _usersService = usersService;
         _ordersService = ordersService;
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<UserResponse>>> Get(
         [FromQuery] UserRequest model
     )
@@ -30,7 +30,7 @@ public class UsersController : ApplicationBaseController
     }
     
     [HttpGet("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<ActionResult<UserResponse>> GetById(
         [FromQuery] Guid id
     )
@@ -64,4 +64,11 @@ public class UsersController : ApplicationBaseController
         return await Execute(() => _ordersService.GetOrdersByUserId(id));
     }
     
+    [HttpPost("{id}/orders")]
+    public async Task<IActionResult> CreateOrdersForUser(
+        [FromBody] OrderUserRequest request
+    )
+    {
+        return await Execute(() => _ordersService.CreateUserOrders(request), Ok());
+    }
 }

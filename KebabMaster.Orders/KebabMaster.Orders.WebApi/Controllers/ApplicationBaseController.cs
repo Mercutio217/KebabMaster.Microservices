@@ -21,6 +21,10 @@ public abstract class ApplicationBaseController  : ControllerBase
         {
             return StatusCode(StatusCodes.Status400BadRequest, validationException.GetValidationErrorMessage());
         }
+        catch (UnauthorizedException)
+        {
+            return StatusCode(StatusCodes.Status401Unauthorized);
+        }
         catch (Exception exception)
         {
             return StatusCode(StatusCodes.Status500InternalServerError);

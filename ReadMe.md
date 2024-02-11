@@ -14,7 +14,7 @@ Adres repozytorium: https://github.com/Mercutio217/KebabMaster.Microservices
 
     Dane administratora:
 
-        Email: testmail@mail.com
+        Email: sgdukat@hotmail.com
         Hasło: bajorSux
 
 2. Autoryzacja:

@@ -59,6 +59,20 @@ public class OrderService : IOrderService
 
     public Task<IEnumerable<Order>> GetOrdersByUserId(Guid id)
     {
-        return _repository.GetOrdersByUserId(id);
+        try
+        {
+            var result = _repository.GetOrdersByUserId(id);
+            return result;
+        }
+        catch (Exception e)
+        {
+            var a = e;
+            throw;
+        }
+    }
+
+    public async Task CreateUserOrder(Order order)
+    {
+        await _repository.CreateOrder(order);
     }
 }

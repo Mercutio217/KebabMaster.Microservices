@@ -12,4 +12,6 @@ public interface IOrderApiService
     public Task DeleteOrder(Guid id);
     public Task UpdateOrder(OrderUpdateRequest order);
     Task<IEnumerable<MenuItem>> GetMenuItems();
+    Task<IEnumerable<Order>> GetOrdersByUserId(Guid id);
+    Task CreateUserOrders(OrderUserRequest request);
 }

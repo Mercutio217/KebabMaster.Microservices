@@ -84,6 +84,17 @@ public class OrderApiService : IOrderApiService
         return await Execute(() => _menuRepository.GetMenuItems());
     }
 
+    public async Task<IEnumerable<Order>> GetOrdersByUserId(Guid id)
+    {
+        return await Execute(() => _orderService.GetOrdersByUserId(id));
+    }
+
+    public async Task CreateUserOrders(OrderUserRequest request)
+    {
+        var order = _mapper.Map<Order>(request);
+        await Execute(() => _orderService.CreateUserOrder(order));
+    }
+
     private async Task Execute(Func<Task> function)
     {
         try

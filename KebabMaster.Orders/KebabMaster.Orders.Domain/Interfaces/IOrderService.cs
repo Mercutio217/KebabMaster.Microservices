@@ -8,9 +8,11 @@ namespace KebabMaster.Orders.Domain.Interfaces;
 public interface IOrderService
 {
     public Task CreateOrder(Order order);
+    
     public Task<IEnumerable<Order>> GetOrdersAsync(OrderFilter filter);
     public Task<Order> GetOrderByIdAsync(Guid id);
     public Task DeleteOrder(Guid id);
     public Task UpdateOrder(OrderUpdateModel order);
     public Task<IEnumerable<Order>> GetOrdersByUserId(Guid id);
+    Task CreateUserOrder(Order order);
 }

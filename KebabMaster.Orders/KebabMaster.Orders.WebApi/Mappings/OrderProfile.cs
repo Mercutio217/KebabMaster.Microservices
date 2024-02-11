@@ -13,6 +13,11 @@ public class OrderProfile : Profile
 {
     public OrderProfile()
     {
+        CreateMap<OrderUserRequest, Order>()            .ConvertUsing(request =>
+            Order.Create(request.Id,request.Email,
+                Address.Create(request.Address.StreetName, request.Address.StreetNumber,
+                    request.Address.FlatNumber),
+                request.OrderItems.Select(item => OrderItem.Create(item.MenuItemId, item.Quantity)).ToList()));
         CreateMap<OrderRequest, Order>()
             .ConvertUsing(request =>
                 Order.Create(request.Email,
