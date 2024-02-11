@@ -83,7 +83,7 @@ public class UserRepository : IUserRepository
         User? user = 
             await _context.Users.FirstOrDefaultAsync(us => us.Id == model.Id);
         if (user is null)
-            return;
+            throw new Exception();
         
         user.Update(model);
 

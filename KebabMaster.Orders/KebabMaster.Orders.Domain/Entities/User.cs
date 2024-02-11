@@ -27,11 +27,11 @@ public class User : Entity
 
     public void Update(UserUpdateModel model)
     {
-        if(model.Name is not null)
+        if(!string.IsNullOrWhiteSpace(model.Name))
             Name = model.Name;
-        if(model.UserName is not null)
+        if(!string.IsNullOrWhiteSpace(model.UserName))
             UserName = model.UserName;
-        if(model.Surname is not null)
+        if(!string.IsNullOrWhiteSpace(model.Surname))
             Surname = model.Surname;
     }
     

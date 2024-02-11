@@ -49,6 +49,7 @@ public class UsersController : ApplicationBaseController
     }
     
     [HttpPut]
+    [Authorize]
     public async Task<IActionResult> Update(
         [FromBody] UserUpdateRequest request
     )
@@ -56,6 +57,7 @@ public class UsersController : ApplicationBaseController
         return await Execute(() => _usersService.UpdateUser(request), Ok());
     }
     
+    [Authorize]
     [HttpGet("{id}/orders")]
     public async Task<ActionResult<IEnumerable<Order>>> GetOrdersById(
         [FromRoute] Guid id
@@ -64,6 +66,7 @@ public class UsersController : ApplicationBaseController
         return await Execute(() => _ordersService.GetOrdersByUserId(id));
     }
     
+    [Authorize]
     [HttpPost("{id}/orders")]
     public async Task<IActionResult> CreateOrdersForUser(
         [FromBody] OrderUserRequest request
